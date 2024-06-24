@@ -40,4 +40,11 @@ config KSU_LSM_SECURITY_HOOKS
 	  Disabling this is mostly only useful for kernel 4.1 and older.
 	  Make sure to implement manual hooks on security/security.c.
 
+config KSU_VERSION
+	int "KernelSU version"
+	depends on KSU
+	default 11998
+	help
+	  KSU version (10000 + git commits on KernelSU repo + 200)
+
 endmenu
