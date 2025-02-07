@@ -1388,11 +1388,21 @@ static int qcom_socinfo_probe(struct platform_device *pdev)
 	qs->attr.family = "Snapdragon";
 	qs->attr.soc_id = devm_kasprintf(&pdev->dev, GFP_KERNEL, "%u",
 					 le32_to_cpu(info->id));
+	if (!qs->attr.soc_id || !qs->attr.revision)
+		return -ENOMEM;
 	qs->attr.revision = devm_kasprintf(&pdev->dev, GFP_KERNEL, "%u.%u",
 					   SOCINFO_MAJOR(le32_to_cpu(info->ver)),
 					   SOCINFO_MINOR(le32_to_cpu(info->ver)));
+
 	qs->attr.soc_id = kasprintf(GFP_KERNEL, "%d", socinfo_get_id());
 
+	if (offsetof(struct socinfo, serial_num) <= item_size) {
+		qs->attr.serial_number = devm_kasprintf(&pdev->dev, GFP_KERNEL,
+							"%u",
+							le32_to_cpu(info->serial_num));
+		if (!qs->attr.serial_number)
+			return -ENOMEM;
+	}
 	if (socinfo_format >= SOCINFO_VERSION(0, 16)) {
 		machine = socinfo_machine(le32_to_cpu(info->id));
 		esku = socinfo_get_esku_mapping();
@@ -1405,6 +1415,11 @@ static int qcom_socinfo_probe(struct platform_device *pdev)
 	init_rwsem(&qs->current_image_rwsem);
 	socinfo_populate_sysfs(qs);
 	socinfo_print();
+=======
+
+
+
+>>>>>>> theirs
 
 	qs->soc_dev = soc_device_register(&qs->attr);
 	if (IS_ERR(qs->soc_dev))
