@@ -1415,11 +1415,6 @@ static int qcom_socinfo_probe(struct platform_device *pdev)
 	init_rwsem(&qs->current_image_rwsem);
 	socinfo_populate_sysfs(qs);
 	socinfo_print();
-=======
-
-
-
->>>>>>> theirs
 
 	qs->soc_dev = soc_device_register(&qs->attr);
 	if (IS_ERR(qs->soc_dev))
