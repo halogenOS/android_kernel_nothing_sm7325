@@ -8,7 +8,7 @@ import android.content.res.Configuration
 import android.net.Uri
 import android.os.Build
 import android.provider.Settings
-import java.util.*
+import java.util.Locale
 
 object LocaleHelper {
     
@@ -28,7 +28,7 @@ object LocaleHelper {
                     data = Uri.fromParts("package", context.packageName, null)
                 }
                 context.startActivity(intent)
-            } catch (_: Exception) {
+            } catch (e: Exception) {
                 // Fallback to app language settings if system settings not available
             }
         }
@@ -73,7 +73,6 @@ object LocaleHelper {
         return context.createConfigurationContext(configuration)
     }
     
-    @Suppress("DEPRECATION")
     @SuppressWarnings("deprecation")
     private fun updateResourcesLegacy(context: Context, locale: Locale): Context {
         Locale.setDefault(locale)
@@ -101,7 +100,7 @@ object LocaleHelper {
                     .setLanguage(tag)
                     .build()
             }
-        } catch (_: Exception) {
+        } catch (e: Exception) {
             Locale.getDefault()
         }
     }
@@ -130,7 +129,7 @@ object LocaleHelper {
                     } else {
                         null // System default
                     }
-                } catch (_: Exception) {
+                } catch (e: Exception) {
                     null // System default
                 }
             } else {

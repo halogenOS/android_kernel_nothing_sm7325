@@ -37,7 +37,7 @@
 
 ## ✅ Compatibility
 
-KernelSU Next supports Android kernels from **4.4 up to 6.6**.
+KernelSU Next supports Android kernels from **4.4 up to 6.6**:
 
 | Kernel version       | Support notes                                                           |
 |----------------------|-------------------------------------------------------------------------|
@@ -55,10 +55,9 @@ Please refer to the [Installation](https://kernelsu-next.github.io/webpage/pages
 
 ---
 
-## 🏅 Contribution
+## 🔐 Security
 
-- Go to our [Crowdin](https://crowdin.com/project/kernelsu-next) to submit a translation for the manager!
-- To report security issues, please see [SECURITY.md](/SECURITY.md).
+To report security issues, please see [SECURITY.md](/SECURITY.md).
 
 ---
 
@@ -71,11 +70,10 @@ Please refer to the [Installation](https://kernelsu-next.github.io/webpage/pages
 
 ## 💸 Donations
 
-If you'd like to support the project:
+If you’d like to support the project:
 
 - **USDT (BEP20, ERC20)**: `0x12b5224b7aca0121c2f003240a901e1d064371c1`
 - **USDT (TRC20)**: `TYUVMWGTcnR5svnDoX85DWHyqUAeyQcdjh`
-- **USDT (SOL)**: `A4wqBXYd6Ey4nK4SJ2bmjeMgGyaLKT9TwDLh8BEo8Zu6`
 - **ETH (ERC20)**: `0x12b5224b7aca0121c2f003240a901e1d064371c1`
 - **LTC**: `Ld238uYBuRQdZB5YwdbkuU6ektBAAUByoL`
 - **BTC**: `19QgifcjMjSr1wB2DJcea5cxitvWVcXMT6`
@@ -89,4 +87,5 @@ If you'd like to support the project:
 - [Genuine](https://github.com/brevent/genuine/) – APK v2 signature validation
 - [Diamorphine](https://github.com/m0nad/Diamorphine) – Rootkit techniques
 - [KernelSU](https://github.com/tiann/KernelSU) – The original base that made KernelSU Next possible
-- [Magic Mount Port](https://github.com/5ec1cff/KernelSU/blob/main/userspace/ksud/src/magic_mount.rs) – For Magic Mount support
+- [Magic Mount Port](https://github.com/5ec1cff/KernelSU/blob/main/userspace/ksud/src/magic_mount.rs) – 💜 to 5ec1cff for keeping KernelSU alive
+- [Crowdin Translators](https://crowdin.com/project/kernelsu-next/members) – 💬 Thanks to everyone for helping make KernelSU Next multi-lingual!

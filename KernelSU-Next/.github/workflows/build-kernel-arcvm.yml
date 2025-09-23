@@ -1,5 +1,4 @@
 name: Build Kernel - ChromeOS ARCVM
-
 on:
   push:
     branches: ["next"]
@@ -67,15 +66,15 @@ jobs:
           sudo ln -s --force /usr/bin/clang++-$LLVM_VERSION /usr/bin/clang++
 
       - name: Checkout KernelSU-Next
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           path: KernelSU-Next
           fetch-depth: 0
 
-      - name: Setup Kernel Source
+      - name: Setup kernel source
         run: git clone https://chromium.googlesource.com/chromiumos/third_party/kernel.git -b ${{ env.git_tag }} --depth=1
 
-      - name: Extract Version from Makefile
+      - name: Extract version from Makefile
         working-directory: kernel
         run: |
           VERSION=$(grep -E '^VERSION = ' Makefile | awk '{print $3}')

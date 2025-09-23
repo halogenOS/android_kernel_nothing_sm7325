@@ -10,25 +10,29 @@ import android.os.IBinder
 import android.os.Parcelable
 import android.os.SystemClock
 import android.util.Log
+import android.widget.Toast
 import androidx.compose.runtime.derivedStateOf
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
-import androidx.core.content.edit
 import androidx.lifecycle.ViewModel
+import com.topjohnwu.superuser.Shell
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import kotlinx.parcelize.Parcelize
 import com.rifsxd.ksunext.IKsuInterface
 import com.rifsxd.ksunext.Natives
 import com.rifsxd.ksunext.ksuApp
 import com.rifsxd.ksunext.ui.KsuService
 import com.rifsxd.ksunext.ui.util.HanziToPinyin
-import com.topjohnwu.superuser.Shell
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.withContext
-import kotlinx.parcelize.Parcelize
+import com.rifsxd.ksunext.ui.util.KsuCli
+import kotlinx.coroutines.delay
+import kotlinx.coroutines.withTimeoutOrNull
 import java.text.Collator
 import java.util.*
 import kotlin.coroutines.resume
 import kotlin.coroutines.suspendCoroutine
+import androidx.core.content.edit
 
 class SuperUserViewModel : ViewModel() {
 
@@ -134,7 +138,8 @@ class SuperUserViewModel : ViewModel() {
             Shell.EXECUTOR,
             connection,
         )
-        task?.let { it1 -> Shell.getShell().execTask(it1) }
+        val shell = KsuCli.SHELL
+        task?.let { it1 -> shell.execTask(it1) }
     }
 
     private fun stopKsuService() {

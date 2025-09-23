@@ -1,4 +1,4 @@
-[English](README.md) | [简体中文](README_CN.md) | [繁體中文](README_TW.md) | [Türkçe](README_TR.md) | [Português (Brasil)](README_PT-BR.md) | [한국어](README_KO.md) | [Français](README_FR.md) | [Bahasa Indonesia](README_ID.md) | [Русский](README_RU.md) | [Українська](README_UA.md) | [ภาษาไทย](README_TH.md) | [Tiếng Việt](README_VI.md) | [Italiano](README_IT.md) | **Polski** | [Български](README_BG.md) | [日本語](README_JA.md) | [Español](README_ES.md)
+[English](README.md) | [简体中文](README_CN.md) | [繁體中文](README_TW.md) | [Türkçe](README_TR.md) | [Português (Brasil)](README_PT-BR.md) | [한국어](README_KO.md) | [Français](README_FR.md) | [Bahasa Indonesia](README_ID.md) | [Русский](README_RU.md) | [Українська](README_UA.md) | [ภาษาไทย](README_TH.md) | [Tiếng Việt](README_VI.md) | [Italiano](README_IT.md) | **Polski** | [Български](README_BG.md) | [日本語](README_JA.md)
 
 ---
 
@@ -21,13 +21,12 @@
     <a href="/LICENSE">
       <img src="https://img.shields.io/github/license/KernelSU-Next/KernelSU-Next?logo=gnu" alt="GitHub License">
     </a>
-    <a title="Crowdin" target="_blank" href="https://crowdin.com/project/kernelsu-next"><img src="https://badges.crowdin.net/kernelsu-next/localized.svg"></a>
   </p>
 </div>
 
 ---
 
-## 🚀 Funkcjonalność
+## 🚀 Funkcjonalności
 
 - Oparte na jądrze `su` i zarządzanie dostępem do roota.
 - System modułów oparty na [Magic Mount](https://topjohnwu.github.io/Magisk/details.html#magic-mount) i [OverlayFS](https://en.wikipedia.org/wiki/OverlayFS).
@@ -42,7 +41,7 @@ KernelSU Next obsługuje jądra Androida od wersji **4.4 do 6.6**:
 | Wersja jądra         | Informacje techniczne                                                                     |
 |----------------------|-------------------------------------------------------------------------------------------|
 | 5.10+ (GKI 2.0)      | Obsługuje wstępnie skompilowane obrazy i LKM/KMI                                          |
-| 4.19 – 5.4 (GKI 1.0) | Wymaga wbudowania sterownika KernelSU                                                     |
+| 4.19 – 5.4 (GKI 1.0) | Wymaga wbudowania sterownika KernelSU                                                     | 
 | < 4.14 (EOL)         | Wymaga sterownika KernelSU (obsługa 3.18+ jest eksperymentalna i może wymagać backportów) |
 
 **Obsługiwane architektury:** `arm64-v8a`, `armeabi-v7a` i `x86_64`
@@ -55,7 +54,7 @@ Instrukcje dotyczące instalacji można znaleźć w przewodniku [Instalacja](htt
 
 ---
 
-## 🏅 Bezpieczeństwo
+## 🔐 Bezpieczeństwo
 
 Aby zgłosić problemy związane z bezpieczeństwem, zapoznaj się z [SECURITY.md](/SECURITY.md).
 
@@ -74,7 +73,6 @@ Jeśli chciałbyś wesprzeć projekt:
 
 - **USDT (BEP20, ERC20)**: `0x12b5224b7aca0121c2f003240a901e1d064371c1`
 - **USDT (TRC20)**: `TYUVMWGTcnR5svnDoX85DWHyqUAeyQcdjh`
-- **USDT (SOL)**: `A4wqBXYd6Ey4nK4SJ2bmjeMgGyaLKT9TwDLh8BEo8Zu6`
 - **ETH (ERC20)**: `0x12b5224b7aca0121c2f003240a901e1d064371c1`
 - **LTC**: `Ld238uYBuRQdZB5YwdbkuU6ektBAAUByoL`
 - **BTC**: `19QgifcjMjSr1wB2DJcea5cxitvWVcXMT6`
@@ -88,4 +86,4 @@ Jeśli chciałbyś wesprzeć projekt:
 - [Genuine](https://github.com/brevent/genuine/) – Walidacja podpisu APK v2
 - [Diamorphine](https://github.com/m0nad/Diamorphine) – Techniki rootkit
 - [KernelSU](https://github.com/tiann/KernelSU) – Oryginalna baza, która umożliwiła powstanie KernelSU Next
-- [Magic Mount Port](https://github.com/5ec1cff/KernelSU/blob/main/userspace/ksud/src/magic_mount.rs) – Za obsługę Magic Mount
+- [Magic Mount Port](https://github.com/5ec1cff/KernelSU/blob/main/userspace/ksud/src/magic_mount.rs) – 💜 dla 5ec1cff za utrzymanie KernelSU przy życiu

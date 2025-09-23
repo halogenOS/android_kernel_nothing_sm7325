@@ -4,14 +4,12 @@ import android.app.Application
 import android.system.Os
 import coil.Coil
 import coil.ImageLoader
-import com.rifsxd.ksunext.ui.util.createRootShellBuilder
-import com.topjohnwu.superuser.Shell
 import me.zhanghai.android.appiconloader.coil.AppIconFetcher
 import me.zhanghai.android.appiconloader.coil.AppIconKeyer
 import okhttp3.Cache
 import okhttp3.OkHttpClient
 import java.io.File
-import java.util.*
+import java.util.Locale
 
 lateinit var ksuApp: KernelSUApplication
 
@@ -22,8 +20,6 @@ class KernelSUApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         ksuApp = this
-        Shell.setDefaultBuilder(createRootShellBuilder(true))
-        Shell.enableVerboseLogging = BuildConfig.DEBUG
 
         val context = this
         val iconSize = resources.getDimensionPixelSize(android.R.dimen.app_icon_size)

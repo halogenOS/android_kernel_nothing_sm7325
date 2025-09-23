@@ -15,13 +15,15 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.updateLayoutParams
 import androidx.webkit.WebViewAssetLoader
+import com.topjohnwu.superuser.Shell
 import com.rifsxd.ksunext.ui.util.createRootShell
 import java.io.File
 
 @SuppressLint("SetJavaScriptEnabled")
 class WebUIActivity : ComponentActivity() {
-    private val rootShell by lazy { createRootShell(true) }
-    private var webView = null as WebView?
+    private lateinit var webviewInterface: WebViewInterface
+
+    private var rootShell: Shell? = null
 
     fun erudaConsole(context: android.content.Context): String {
         return context.assets.open("eruda.min.js").bufferedReader().use { it.readText() }
@@ -37,8 +39,8 @@ class WebUIActivity : ComponentActivity() {
 
         super.onCreate(savedInstanceState)
 
-        val moduleId = intent.getStringExtra("id") ?: finishAndRemoveTask().let { return }
-        val name = intent.getStringExtra("name") ?: finishAndRemoveTask().let { return }
+        val moduleId = intent.getStringExtra("id")!!
+        val name = intent.getStringExtra("name")!!
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) {
             @Suppress("DEPRECATION")
             setTaskDescription(ActivityManager.TaskDescription("WebUI-Next | $name"))
@@ -55,6 +57,7 @@ class WebUIActivity : ComponentActivity() {
 
         val moduleDir = "/data/adb/modules/${moduleId}"
         val webRoot = File("${moduleDir}/webroot")
+        val rootShell = createRootShell(true).also { this.rootShell = it }
         val webViewAssetLoader = WebViewAssetLoader.Builder()
             .setDomain("mui.kernelsu.org")
             .addPathHandler(
@@ -63,9 +66,16 @@ class WebUIActivity : ComponentActivity() {
             )
             .build()
 
-        val webView = WebView(this).apply {
-            webView = this
+        val webViewClient = object : WebViewClient() {
+            override fun shouldInterceptRequest(
+                view: WebView,
+                request: WebResourceRequest
+            ): WebResourceResponse? {
+                return webViewAssetLoader.shouldInterceptRequest(request.url)
+            }
+        }
 
+        val webView = WebView(this).apply {
             ViewCompat.setOnApplyWindowInsetsListener(this) { view, insets ->
                 val inset = insets.getInsets(WindowInsetsCompat.Type.systemBars())
                 view.updateLayoutParams<MarginLayoutParams> {
@@ -79,29 +89,14 @@ class WebUIActivity : ComponentActivity() {
             settings.javaScriptEnabled = true
             settings.domStorageEnabled = true
             settings.allowFileAccess = false
-            addJavascriptInterface(WebViewInterface(this@WebUIActivity, this, moduleDir), "ksu")
+            webviewInterface = WebViewInterface(this@WebUIActivity, this, moduleDir)
+            addJavascriptInterface(webviewInterface, "ksu")
             setWebViewClient(object : WebViewClient() {
                 override fun shouldInterceptRequest(
                     view: WebView,
                     request: WebResourceRequest
                 ): WebResourceResponse? {
-                    val url = request.url
-                    
-                    //POC: Handle ksu://icon/[packageName] to serve app icon via WebView
-                    if (url.scheme.equals("ksu", ignoreCase = true) && url.host.equals("icon", ignoreCase = true)) {
-                        val packageName = url.path?.substring(1) 
-                        if (!packageName.isNullOrEmpty()) {
-                            val icon = AppIconUtil.loadAppIconSync(this@WebUIActivity, packageName, 512)
-                            if (icon != null) {
-                                val stream = java.io.ByteArrayOutputStream()
-                                icon.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, stream)
-                                val inputStream = java.io.ByteArrayInputStream(stream.toByteArray())
-                                return WebResourceResponse("image/png", null, inputStream)
-                            }
-                        }
-                    }
-            
-                    return webViewAssetLoader.shouldInterceptRequest(url)
+                    return webViewAssetLoader.shouldInterceptRequest(request.url)
                 }
                 override fun onPageFinished(view: WebView?, url: String?) {
                     super.onPageFinished(view, url)
@@ -121,13 +116,7 @@ class WebUIActivity : ComponentActivity() {
     }
 
     override fun onDestroy() {
-        rootShell.runCatching { close() }
-        webView?.apply {
-            stopLoading()
-            removeAllViews()
-            destroy()
-            webView = null
-        }
         super.onDestroy()
+        runCatching { rootShell?.close() }
     }
 }

@@ -39,7 +39,7 @@ jobs:
     name: Build ${{ inputs.version_name }}
     runs-on: ubuntu-22.04
     steps:
-      - name: Maximize Build Space
+      - name: Maximize build space
         uses: easimon/maximize-build-space@master
         with:
           root-reserve-mb: 8192
@@ -49,8 +49,7 @@ jobs:
           remove-haskell: 'true'
           remove-codeql: 'true'
 
-      - name: Checkout Repository
-        uses: actions/checkout@v5
+      - uses: actions/checkout@v4
         with:
           path: KernelSU-Next
           fetch-depth: 0
@@ -64,7 +63,7 @@ jobs:
             echo "UPLOAD=false" >> $GITHUB_OUTPUT
           fi
 
-      - name: Setup Kernel Source
+      - name: Setup kernel source
         run: |
           echo "Free space:"
           df -h
@@ -106,7 +105,7 @@ jobs:
           echo "VERSION: $VERSION"
           echo "kernelsu_version=$VERSION" >> $GITHUB_ENV
 
-      - name: Make Working Directory Clean to Avoid Dirty
+      - name: Make working directory clean to avoid dirty
         working-directory: android-kernel
         run: |
           rm common/android/abi_gki_protected_exports_* || echo "No protected exports!"
@@ -115,7 +114,7 @@ jobs:
           cd common/ && git add -A && git commit -a -m "Add KernelSU-Next"
           repo status
 
-      - name: Build Kernel
+      - name: Build kernel
         working-directory: android-kernel
         run: |
           if [ ! -z ${{ vars.EXPECTED_SIZE }} ] && [ ! -z ${{ vars.EXPECTED_HASH }} ]; then

@@ -2,26 +2,48 @@ package com.rifsxd.ksunext.ui.screen
 
 import android.content.Context
 import android.content.Intent
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.isSystemInDarkTheme
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.WindowInsets
+import androidx.compose.foundation.layout.WindowInsetsSides
+import androidx.compose.foundation.layout.only
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.safeDrawing
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.automirrored.filled.ArrowBack
-import androidx.compose.material.icons.filled.Contrast
-import androidx.compose.material.icons.filled.Translate
-import androidx.compose.material.icons.filled.ViewCarousel
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material.icons.automirrored.filled.*
+import androidx.compose.material.icons.filled.*
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.ListItem
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.Text
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.TextButton
+import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.material3.TopAppBarScrollBehavior
+import androidx.compose.material3.rememberTopAppBarState
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.mutableIntStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.core.content.edit
 import androidx.lifecycle.compose.dropUnlessResumed
 import com.maxkeppeker.sheets.core.models.base.Header
 import com.maxkeppeker.sheets.core.models.base.rememberUseCaseState
@@ -33,12 +55,14 @@ import com.ramcosta.composedestinations.annotation.RootGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.navigation.EmptyDestinationsNavigator
 import com.rifsxd.ksunext.Natives
-import com.rifsxd.ksunext.R
 import com.rifsxd.ksunext.ksuApp
-import com.rifsxd.ksunext.ui.component.SwitchItem
+import com.rifsxd.ksunext.R
 import com.rifsxd.ksunext.ui.component.rememberCustomDialog
-import com.rifsxd.ksunext.ui.util.LocalSnackbarHost
+import com.rifsxd.ksunext.ui.component.SwitchItem
 import com.rifsxd.ksunext.ui.util.LocaleHelper
+import com.rifsxd.ksunext.ui.util.LocalSnackbarHost
+import com.rifsxd.ksunext.ui.util.*
+import java.util.Locale
 
 /**
  * @author rifsxd
@@ -138,7 +162,7 @@ fun CustomizationScreen(navigator: DestinationsNavigator) {
                                 if (testString != defaultString || locale.language == "en") {
                                     locales.add(locale)
                                 }
-                            } catch (_: Exception) {
+                            } catch (e: Exception) {
                                 // Skip unsupported locales
                             }
                         }
@@ -187,7 +211,7 @@ fun CustomizationScreen(navigator: DestinationsNavigator) {
                             onFinishedRequest = {
                                 if (selectedIndex >= 0 && selectedIndex < allOptions.size) {
                                     val newLocale = allOptions[selectedIndex].first
-                                    prefs.edit { putString("app_locale", newLocale) }
+                                    prefs.edit().putString("app_locale", newLocale).apply()
                                     
                                     // Update local state immediately
                                     currentAppLocale = LocaleHelper.getCurrentAppLocale(context)
@@ -251,7 +275,7 @@ fun CustomizationScreen(navigator: DestinationsNavigator) {
                     summary = stringResource(id = R.string.settings_banner_summary),
                     checked = useBanner
                 ) {
-                    prefs.edit { putBoolean("use_banner", it) }
+                    prefs.edit().putBoolean("use_banner", it).apply()
                     useBanner = it
                 }
             }
@@ -269,7 +293,7 @@ fun CustomizationScreen(navigator: DestinationsNavigator) {
                     summary = stringResource(id = R.string.settings_amoled_mode_summary),
                     checked = enableAmoled
                 ) { checked ->
-                    prefs.edit { putBoolean("enable_amoled", checked) }
+                    prefs.edit().putBoolean("enable_amoled", checked).apply()
                     enableAmoled = checked
                     showRestartDialog = true
                 }
